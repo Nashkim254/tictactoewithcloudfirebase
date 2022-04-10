@@ -1,10 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tic_tac_toe/models/userscores.dart';
 import 'package:tic_tac_toe/screens/two_player_game_screen/bloc/two_player_bloc.dart';
 import 'package:tic_tac_toe/utils/db.dart' as score_database;
-
-
 
 class GameCounter extends StatelessWidget {
   const GameCounter({Key? key}) : super(key: key);
@@ -15,10 +14,13 @@ class GameCounter extends StatelessWidget {
       //the win counter will only change when game is starting or game is over
       /// therefore only build this widget when state is [GameInitilize] or GameOver
       buildWhen: (previous, current) {
-        return current is TwoPlayerGameOver || current is TwoPlayerGameInitilize;
+        return current is TwoPlayerGameOver ||
+            current is TwoPlayerGameInitilize;
       },
       builder: (context, state) {
-         final database = score_database.openDB();
+        final database = score_database.openDB();
+        CollectionReference scores =
+            FirebaseFirestore.instance.collection('Multiplayer');
         int xWins = 0;
         int oWins = 0;
         int draw = 0;
@@ -30,31 +32,66 @@ class GameCounter extends StatelessWidget {
           xWins = state.xWins;
           oWins = state.oWins;
           draw = state.draws;
-              if (xWins > 0) {
+          if (state.winner == "x") {
             Score score = Score(
-                id: 0,
-                scoreDate: DateTime.now().toString(),
-                userScore: xWins);
+                id: 0, scoreDate: DateTime.now().toString(), userScore: xWins);
             score_database.manipulateDatabase(score, database);
+
+            addScore() async {
+              await scores
+                  .doc("Xwins")
+                  .set({
+                    "id": "0",
+                    "scoreDate": "${DateTime.now().toString()}",
+                    "userScore": "${xWins}" // 42
+                  })
+                  .then((value) => print("score Added"))
+                  .catchError((error) => print("Failed to add score: $error"));
+            }
+
+            addScore();
             print("=========>DB saved");
-          }else if(oWins > 0){
-             Score score = Score(
-                id: 1,
-                scoreDate: DateTime.now().toString(),
-                userScore: oWins);
+          } else if (state.winner == "o") {
+            Score score = Score(
+                id: 1, scoreDate: DateTime.now().toString(), userScore: oWins);
             score_database.manipulateDatabase(score, database);
-            print("=========>DB saved");
-          }else if(draw > 0){
-             Score score = Score(
-                id: 1,
-                scoreDate: DateTime.now().toString(),
-                userScore: draw);
+            // Call the user's CollectionReference to add a new user
+            addScore() async {
+              await scores
+                  .doc("Owins")
+                  .set({
+                    "id": "1",
+                    "scoreDate": "${DateTime.now().toString()}",
+                    "userScore": "${oWins}", // 42/ 42
+                  })
+                  .then((value) => print("score Added"))
+                  .catchError((error) => print("Failed to add score: $error"));
+            }
+
+            addScore();
+          } else if (state.winner == "draw") {
+            Score score = Score(
+                id: 1, scoreDate: DateTime.now().toString(), userScore: draw);
 
             score_database.manipulateDatabase(score, database);
+            // Call the user's CollectionReference to add a new user
+            addScore() async {
+              await scores
+                  .doc("draws")
+                  .set({
+                    "id": "1",
+                    "scoreDate": "${DateTime.now().toString()}",
+                    "userScore": "${draw}", // 42// 42
+                  })
+                  .then((value) => print("score Added"))
+                  .catchError((error) => print("Failed to add score: $error"));
+            }
+
+            addScore();
             print("=========>DB saved");
           }
         }
-        
+
         if (state is TwoPlayerInitialState || state is TwoPlayerGameOver) {
           return Row(
             mainAxisSize: MainAxisSize.max,

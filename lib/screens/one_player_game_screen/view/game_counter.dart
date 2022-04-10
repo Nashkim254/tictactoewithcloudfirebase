@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tic_tac_toe/models/userscores.dart';
@@ -20,7 +21,10 @@ class GameCounter extends StatelessWidget {
         int xWins = 0;
         int oWins = 0;
         int draw = 0;
-          final database = score_database.openDB();
+        // Create a CollectionReference called users that references the firestore collection
+        CollectionReference scores =
+            FirebaseFirestore.instance.collection('singlePlayer');
+        final database = score_database.openDB();
         if (state is OnePlayerInitialState) {
           xWins = state.xWin;
           oWins = state.oWin;
@@ -29,27 +33,67 @@ class GameCounter extends StatelessWidget {
           xWins = state.xWins;
           oWins = state.oWins;
           draw = state.draws;
-             if (xWins > 0) {
+          if (state.winner == "x" ) {
             Score score = Score(
-                id: 0,
-                scoreDate: DateTime.now().toString(),
-                userScore: xWins);
+                id: 0, scoreDate: DateTime.now().toString(), userScore: xWins);
             score_database.manipulateDatabase(score, database);
+
+            // Call the user's CollectionReference to add a new user
+
+            addScore() async {
+              await scores
+                  .doc("Xwins")
+                  .set({
+                    "id": "0",
+                    "scoreDate": "${DateTime.now().toString()}",
+                    "userScore": "${xWins}" // 42
+                  })
+                  .then((value) => print("score Added"))
+                  .catchError((error) => print("Failed to add score: $error"));
+            }
+
+            addScore();
             print("=========>DB saved");
-          }else if(oWins > 0){
-             Score score = Score(
-                id: 1,
-                scoreDate: DateTime.now().toString(),
-                userScore: oWins);
+          } else if (state.winner == "o") {
+            Score score = Score(
+                id: 1, scoreDate: DateTime.now().toString(), userScore: oWins);
             score_database.manipulateDatabase(score, database);
+
+            // Call the user's CollectionReference to add a new user
+            addScore() async {
+              await scores
+                  .doc("Owins")
+                  .set({
+                    "id": "1",
+                    "scoreDate": "${DateTime.now().toString()}",
+                    "userScore": "${oWins}", // 42/ 42
+                  })
+                  .then((value) => print("score Added"))
+                  .catchError((error) => print("Failed to add score: $error"));
+            }
+
+            addScore();
             print("=========>DB saved");
-          }else if(draw > 0){
-             Score score = Score(
-                id: 1,
-                scoreDate: DateTime.now().toString(),
-                userScore: draw);
+          } else if (state.winner == "draw") {
+            Score score = Score(
+                id: 1, scoreDate: DateTime.now().toString(), userScore: draw);
 
             score_database.manipulateDatabase(score, database);
+
+            // Call the user's CollectionReference to add a new user
+            addScore() async {
+              await scores
+                  .doc("draws")
+                  .set({
+                    "id": "1",
+                    "scoreDate": "${DateTime.now().toString()}",
+                    "userScore": "${draw}", // 42// 42
+                  })
+                  .then((value) => print("score Added"))
+                  .catchError((error) => print("Failed to add score: $error"));
+            }
+
+            addScore();
             print("=========>DB saved");
           }
         }
