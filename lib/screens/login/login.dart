@@ -7,6 +7,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:tic_tac_toe/rounded_btn/rounded_btn.dart';
 import 'package:tic_tac_toe/screens/create_account/create_account.dart';
 import 'package:tic_tac_toe/screens/home_screen/view/home_screen.dart';
+import 'package:tic_tac_toe/utils/validator.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -74,8 +75,9 @@ TextEditingController passCont = TextEditingController();
                         SizedBox(
                           height: 10,
                         ),
-                        TextField(
+                        TextFormField(
                           controller: emailCont,
+                          validator: (value)=> Validator().emailValidator(value!),
                           style: (TextStyle(
                            color: Colors.white,
                            fontWeight: FontWeight.w400
@@ -110,8 +112,9 @@ TextEditingController passCont = TextEditingController();
                       SizedBox(
                         height: 10,
                       ),
-                      TextField(
+                      TextFormField(
                         controller: passCont,
+                        validator: (value)=> Validator().passwordValidator(value!),
                         style: (TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w400
