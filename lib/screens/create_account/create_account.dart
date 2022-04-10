@@ -17,6 +17,7 @@ class _CreateAccountState extends State<CreateAccount> {
   final _auth = FirebaseAuth.instance;
 TextEditingController emailCont = TextEditingController();
 TextEditingController passCont = TextEditingController();
+ final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -30,157 +31,165 @@ TextEditingController passCont = TextEditingController();
         ),
         backgroundColor: Color(0xff251F34),
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                child: Text('Create Account',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 25
-                  ),),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text('Please fill the input below.',
-                  style: TextStyle(
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14
-                  ),),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'E-mail',
-                      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: emailCont,
-                      validator:(value)=> Validator().emailValidator(value!),
-                      style: (TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400
-                      )),
-                      keyboardType: TextInputType.emailAddress,
-                      obscureText: false,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Color(0xfff3B324E),
-                        filled: true,
-                        prefixIcon: Image.asset('assets/images/icon_email.png'),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                    ),
-                    ),
-                  ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                  child: Text('Create Account',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 25
+                    ),),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Password',
-                      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: passCont,
-                      validator: (value)=> Validator().passwordValidator(value!),
-                      style: (TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400
-                      )),
-                      obscureText: true,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Color(0xfff3B324E),
-                        filled: true,
-                        prefixIcon: Image.asset('assets/images/icon_lock.png'),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: RoundedButton(
-                    btnText: 'SIGN UP',
-                    color: Color(0xff14DAE2),
-                    onPressed: () async {
-                      setState(() {
-                        showSpinner = true;
-                      });
-                      try {
-                        final newUser =
-                        await _auth.createUserWithEmailAndPassword(
-                            email: emailCont.text, password: passCont.text);
-                        if (newUser != null) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
-                        }
-
-                        setState(() {
-                          showSpinner = false;
-                        });
-                      } catch (e) {
-                        print(e);
-                      }
-                      // Add login code
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Already have an account?',
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text('Please fill the input below.',
                     style: TextStyle(
                         color: Colors.grey[600],
-                        fontWeight: FontWeight.w400
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14
                     ),),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Login()));
-                    },
-                    child: Text('Sign in',
-                        style: TextStyle(
-                          color: Color(0xff14DAE2),)
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'E-mail',
+                        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: emailCont,
+                        validator:(value)=> Validator().emailValidator(value!),
+                        style: (TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400
+                        )),
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: false,
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Color(0xfff3B324E),
+                          filled: true,
+                          prefixIcon: Image.asset('assets/images/icon_email.png'),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                      ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Password',
+                        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: passCont,
+                        validator: (value)=> Validator().passwordValidator(value!),
+                        style: (TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400
+                        )),
+                        obscureText: true,
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Color(0xfff3B324E),
+                          filled: true,
+                          prefixIcon: Image.asset('assets/images/icon_lock.png'),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: RoundedButton(
+                      btnText: 'SIGN UP',
+                      color: Color(0xff14DAE2),
+                      onPressed: () async {
+                        if(_formKey.currentState!.validate()){
+                        setState(() {
+                          showSpinner = true;
+                        });
+                        try {
+                          final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: emailCont.text, password: passCont.text);
+                          if (newUser != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()));
+                          }
+          
+                          setState(() {
+                            showSpinner = false;
+                          });
+                        } catch (e) {
+                          print(e);
+                        }
+                        }
+                        else {
+                          
+                        }
+                        // Add login code
+                      },
                     ),
-                  )
-                ],
-              )
-            ],
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Already have an account?',
+                      style: TextStyle(
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w400
+                      ),),
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Login()));
+                      },
+                      child: Text('Sign in',
+                          style: TextStyle(
+                            color: Color(0xff14DAE2),)
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

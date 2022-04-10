@@ -20,7 +20,7 @@ class _LoginState extends State<Login> {
   TextEditingController emailCont = TextEditingController();
 TextEditingController passCont = TextEditingController();
 
-
+final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -30,174 +30,178 @@ TextEditingController passCont = TextEditingController();
           resizeToAvoidBottomInset: true,
           backgroundColor: Color(0xff251F34),
           body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: 175,
-                    height: 175,
-                    child: SvgPicture.asset('assets/images/login.svg')
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: SizedBox(
+                      width: 175,
+                      height: 175,
+                      child: SvgPicture.asset('assets/images/login.svg')
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 8),
-                  child: Text('Login',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 8),
+                    child: Text('Login',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20
+                    ),
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text('Please sign in to continue.',
+                        style: TextStyle(
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13
+                    ),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text('Please sign in to continue.',
-                      style: TextStyle(
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'E-mail',
+                            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: emailCont,
+                            validator: (value)=> Validator().emailValidator(value!),
+                            style: (TextStyle(
+                             color: Colors.white,
+                             fontWeight: FontWeight.w400
+                            )),
+                            keyboardType: TextInputType.emailAddress,
+                              cursorColor: Colors.white,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  fillColor: Color(0xfff3B324E),
+                                  filled: true,
+                              prefixIcon: Image.asset('assets/images/icon_email.png'),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                                ),
+                          ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-        ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'E-mail',
+                          'Password',
                           style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         TextFormField(
-                          controller: emailCont,
-                          validator: (value)=> Validator().emailValidator(value!),
+                          controller: passCont,
+                          validator: (value)=> Validator().passwordValidator(value!),
                           style: (TextStyle(
-                           color: Colors.white,
-                           fontWeight: FontWeight.w400
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400
                           )),
-                          keyboardType: TextInputType.emailAddress,
-                            cursorColor: Colors.white,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                fillColor: Color(0xfff3B324E),
-                                filled: true,
-                            prefixIcon: Image.asset('assets/images/icon_email.png'),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
-                                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                              ),
-                        ),
+                          obscureText: true,
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            fillColor: Color(0xfff3B324E),
+                            filled: true,
+                            prefixIcon: Image.asset('assets/images/icon_lock.png'),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
+                              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Password',
-                        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: passCont,
-                        validator: (value)=> Validator().passwordValidator(value!),
-                        style: (TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400
-                        )),
-                        obscureText: true,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Color(0xfff3B324E),
-                          filled: true,
-                          prefixIcon: Image.asset('assets/images/icon_lock.png'),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: RoundedButton(
-                      btnText: 'LOGIN',
-                      color: Color(0xff14DAE2),
-                      onPressed: () async {
-                        // Add login code
-                        setState(() {
-                          showSpinner = true;
-                        });
-                        try {
-                          final user = await _auth.signInWithEmailAndPassword(
-                              email: emailCont.text, password: passCont.text);
-                          if (user != null) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
-                          }
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: RoundedButton(
+                        btnText: 'LOGIN',
+                        color: Color(0xff14DAE2),
+                        onPressed: () async {
+                          // Add login code
+                          if(_formKey.currentState!.validate()){
                           setState(() {
-                            showSpinner = false;
+                            showSpinner = true;
                           });
-                        } catch (e) {
-                          print(e);
-                        }
-                      },
+                          try {
+                            final user = await _auth.signInWithEmailAndPassword(
+                                email: emailCont.text, password: passCont.text);
+                            if (user != null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()));
+                            }
+                            setState(() {
+                              showSpinner = false;
+                            });
+                          } catch (e) {
+                            print(e);
+                          }}else{}
+                        },
+                      ),
                     ),
                   ),
-                ),
-                Center(
-                  child: Text('Forgot Password?',
-                  style: TextStyle(
-                    color: Color(0xff14DAE2)
+                  Center(
+                    child: Text('Forgot Password?',
+                    style: TextStyle(
+                      color: Color(0xff14DAE2)
+                    ),
+                    ),
                   ),
+                  SizedBox(
+                    height: 25,
                   ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Dont have an account?',
-                      style: TextStyle(
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.w400
-                      ),),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateAccount()));
-                      },
-                      child: Text('Sign up',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Dont have an account?',
                         style: TextStyle(
-                            color: Color(0xff14DAE2),)
-                      ),
-                    )
-                  ],
-                )
-              ],
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w400
+                        ),),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateAccount()));
+                        },
+                        child: Text('Sign up',
+                          style: TextStyle(
+                              color: Color(0xff14DAE2),)
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
