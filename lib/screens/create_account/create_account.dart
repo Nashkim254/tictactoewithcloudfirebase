@@ -18,6 +18,7 @@ class _CreateAccountState extends State<CreateAccount> {
   final _auth = FirebaseAuth.instance;
 TextEditingController emailCont = TextEditingController();
 TextEditingController passCont = TextEditingController();
+TextEditingController nameCont = TextEditingController();
  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ TextEditingController passCont = TextEditingController();
       // Call the user's CollectionReference to add a new user
       return users
           .add({
+            'username':nameCont.text,
             'email': emailCont.text,// 42
           })
           .then((value) => print("User Added"))
@@ -66,6 +68,42 @@ TextEditingController passCont = TextEditingController();
                         fontWeight: FontWeight.w400,
                         fontSize: 14
                     ),),
+                ),
+                 Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Username',
+                        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: nameCont,
+                        validator:(value)=> Validator().nameValidator(value!),
+                        style: (TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400
+                        )),
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: false,
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Color(0xfff3B324E),
+                          filled: true,
+                          prefixIcon: Icon(Icons.person,color: Color(0xff14DAE2),),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff14DAE2), width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                      ),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),

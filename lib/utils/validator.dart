@@ -18,6 +18,14 @@ class Validator{
 
         return null;
   }
+    String? nameValidator(String name){
+
+        if(name.isEmpty){
+          return 'name is required';
+        }
+
+        return null;
+  }
 
   String? passwordValidator(String password){
       if(password.isEmpty){
