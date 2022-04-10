@@ -6,6 +6,7 @@ import 'package:tic_tac_toe/rounded_btn/rounded_btn.dart';
 import 'package:tic_tac_toe/screens/home_screen/view/home_screen.dart';
 import 'package:tic_tac_toe/screens/login/login.dart';
 import 'package:tic_tac_toe/utils/validator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -20,6 +21,17 @@ TextEditingController passCont = TextEditingController();
  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+     // Create a CollectionReference called users that references the firestore collection
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+     Future<void> addUser() {
+      // Call the user's CollectionReference to add a new user
+      return users
+          .add({
+            'email': emailCont.text,// 42
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
       child: Scaffold(
@@ -141,6 +153,7 @@ TextEditingController passCont = TextEditingController();
                           final newUser =
                           await _auth.createUserWithEmailAndPassword(
                               email: emailCont.text, password: passCont.text);
+                             addUser();
                           if (newUser != null) {
                             Navigator.push(
                                 context,
@@ -156,7 +169,7 @@ TextEditingController passCont = TextEditingController();
                         }
                         }
                         else {
-                          
+
                         }
                         // Add login code
                       },
