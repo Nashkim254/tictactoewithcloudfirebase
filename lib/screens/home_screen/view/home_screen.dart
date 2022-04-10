@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tic_tac_toe/constants/style.dart';
 import 'package:tic_tac_toe/extensions/extensions.dart';
+import 'package:tic_tac_toe/screens/highscore/loadingcreen.dart';
+import 'package:tic_tac_toe/screens/highscore/view.dart';
 import 'package:tic_tac_toe/screens/home_screen/bloc/home_screen_bloc/homescreen_bloc.dart';
 import 'package:tic_tac_toe/screens/home_screen/bloc/theme_bloc/bloc/theme_bloc.dart';
 import 'package:tic_tac_toe/screens/login/login.dart';
@@ -118,6 +120,15 @@ class HomeScreenView extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const TwoPlayerGameScreen()));
           },
           child: Text("Two Player",
+              style: Theme.of(context).textTheme.headline6?.boldText),
+        ),
+          ElevatedButton(
+          style: textButtonStyle,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) =>  LoadingScreen()));
+          },
+          child: Text("High scores",
               style: Theme.of(context).textTheme.headline6?.boldText),
         )
         //TODO : make game play online

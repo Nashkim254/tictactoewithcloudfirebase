@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tic_tac_toe/screens/highscore/cubit/scores_cubit.dart';
 import 'package:tic_tac_toe/screens/home_screen/bloc/theme_bloc/bloc/theme_bloc.dart';
 import 'package:tic_tac_toe/screens/home_screen/view/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,9 +19,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return MultiBlocProvider(
       // Theme Bloc to change between dark and light theme.
-      create: (context) => ThemeBloc(),
+     providers:[ 
+       BlocProvider(create: (context) => ThemeBloc(),) ,
+      BlocProvider(create: (context)=> ScoresCubit())
+     ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           return MaterialApp(

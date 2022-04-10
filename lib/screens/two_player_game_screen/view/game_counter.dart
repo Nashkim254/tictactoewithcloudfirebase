@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tic_tac_toe/models/userscores.dart';
 import 'package:tic_tac_toe/screens/two_player_game_screen/bloc/two_player_bloc.dart';
+import 'package:tic_tac_toe/utils/db.dart' as score_database;
 
 
 
@@ -16,6 +18,7 @@ class GameCounter extends StatelessWidget {
         return current is TwoPlayerGameOver || current is TwoPlayerGameInitilize;
       },
       builder: (context, state) {
+         final database = score_database.openDB();
         int xWins = 0;
         int oWins = 0;
         int draw = 0;
@@ -27,7 +30,31 @@ class GameCounter extends StatelessWidget {
           xWins = state.xWins;
           oWins = state.oWins;
           draw = state.draws;
+              if (xWins > 0) {
+            Score score = Score(
+                id: 0,
+                scoreDate: DateTime.now().toString(),
+                userScore: xWins);
+            score_database.manipulateDatabase(score, database);
+            print("=========>DB saved");
+          }else if(oWins > 0){
+             Score score = Score(
+                id: 1,
+                scoreDate: DateTime.now().toString(),
+                userScore: oWins);
+            score_database.manipulateDatabase(score, database);
+            print("=========>DB saved");
+          }else if(draw > 0){
+             Score score = Score(
+                id: 1,
+                scoreDate: DateTime.now().toString(),
+                userScore: draw);
+
+            score_database.manipulateDatabase(score, database);
+            print("=========>DB saved");
+          }
         }
+        
         if (state is TwoPlayerInitialState || state is TwoPlayerGameOver) {
           return Row(
             mainAxisSize: MainAxisSize.max,
