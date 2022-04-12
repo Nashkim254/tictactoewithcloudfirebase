@@ -12,20 +12,54 @@ import 'package:tic_tac_toe/screens/login/login.dart';
 import 'package:tic_tac_toe/screens/one_player_game_screen/view/game_screen.dart';
 import 'package:tic_tac_toe/screens/two_player_game_screen/view/game_screen.dart';
 
-
 import 'creating_game_dailog.dart';
 import 'join_game_dailog.dart';
 import 'option_dailog.dart';
 
 class HomeScreen extends StatelessWidget {
-   HomeScreen({Key? key}) : super(key: key);
-final _auth = FirebaseAuth.instance;
+  HomeScreen({Key? key}) : super(key: key);
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        centerTitle: true,
+        title: Text.rich(
+          TextSpan(
+            text: 'Tic',
+            style: TextStyle(
+              fontSize: 40,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ), // default text style
+            children: <TextSpan>[
+              TextSpan(
+                text: ' Tac ',
+                style: TextStyle(
+                  fontSize: 40,
+
+                  /// if we don't declare color explicitly,
+                  /// it will take default color blue accent
+                  color: Colors.blue,
+
+                  /// if we use the same fontFamily, that will also
+                  /// make it italic, bold and blue
+                  //fontFamily: 'Allison',
+                ),
+              ),
+              TextSpan(
+                text: 'Toe ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
         actions: [
           BlocBuilder<ThemeBloc, ThemeState>(
             builder: (context, state) {
@@ -46,13 +80,23 @@ final _auth = FirebaseAuth.instance;
             },
           ),
           BlocConsumer<ThemeBloc, ThemeState>(
-            listener: (context,state){},
+            listener: (context, state) {},
             builder: (context, state) {
-              return IconButton(onPressed: (){
-                _auth.signOut();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Login()));
-                }, 
-                icon:state is DarkTheme ? Icon(Icons.logout,color: Colors.white,) :Icon(Icons.logout,color: Colors.black,) );
+              return IconButton(
+                  onPressed: () {
+                    _auth.signOut();
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (_) => Login()));
+                  },
+                  icon: state is DarkTheme
+                      ? Icon(
+                          Icons.logout,
+                          color: Colors.white,
+                        )
+                      : Icon(
+                          Icons.logout,
+                          color: Colors.black,
+                        ));
             },
           )
         ],
@@ -107,8 +151,10 @@ class HomeScreenView extends StatelessWidget {
         ElevatedButton(
           style: textButtonStyle,
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const OnePlayerGameScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const OnePlayerGameScreen()));
           },
           child: Text("One Player",
               style: Theme.of(context).textTheme.headline6?.boldText),
@@ -116,17 +162,19 @@ class HomeScreenView extends StatelessWidget {
         ElevatedButton(
           style: textButtonStyle,
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const TwoPlayerGameScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const TwoPlayerGameScreen()));
           },
           child: Text("Two Player",
               style: Theme.of(context).textTheme.headline6?.boldText),
         ),
-          ElevatedButton(
+        ElevatedButton(
           style: textButtonStyle,
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) =>  LoadingScreen()));
+                MaterialPageRoute(builder: (context) => LoadingScreen()));
           },
           child: Text("High scores",
               style: Theme.of(context).textTheme.headline6?.boldText),
