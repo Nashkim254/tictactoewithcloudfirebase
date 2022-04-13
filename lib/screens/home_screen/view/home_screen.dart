@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tic_tac_toe/constants/style.dart';
 import 'package:tic_tac_toe/extensions/extensions.dart';
-import 'package:tic_tac_toe/screens/highscore/loadingcreen.dart';
-import 'package:tic_tac_toe/screens/highscore/view.dart';
 import 'package:tic_tac_toe/screens/home_screen/bloc/home_screen_bloc/homescreen_bloc.dart';
 import 'package:tic_tac_toe/screens/home_screen/bloc/theme_bloc/bloc/theme_bloc.dart';
-import 'package:tic_tac_toe/screens/login/login.dart';
+import 'package:tic_tac_toe/screens/home_screen/view/popupmenu.dart';
 import 'package:tic_tac_toe/screens/one_player_game_screen/view/game_screen.dart';
+import 'package:tic_tac_toe/screens/tournaments/tournament.dart';
 import 'package:tic_tac_toe/screens/two_player_game_screen/view/game_screen.dart';
 
 import 'creating_game_dailog.dart';
@@ -84,17 +83,15 @@ class HomeScreen extends StatelessWidget {
             builder: (context, state) {
               return IconButton(
                   onPressed: () {
-                    _auth.signOut();
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (_) => Login()));
+                    showPopupMenu(context);
                   },
                   icon: state is DarkTheme
                       ? Icon(
-                          Icons.logout,
+                          Icons.more_vert,
                           color: Colors.white,
                         )
                       : Icon(
-                          Icons.logout,
+                          Icons.more_vert,
                           color: Colors.black,
                         ));
             },
@@ -170,13 +167,14 @@ class HomeScreenView extends StatelessWidget {
           child: Text("Two Player",
               style: Theme.of(context).textTheme.headline6?.boldText),
         ),
-        ElevatedButton(
+        
+         ElevatedButton(
           style: textButtonStyle,
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoadingScreen()));
+                MaterialPageRoute(builder: (context) => TeamStandings()));
           },
-          child: Text("High scores",
+          child: Text("Tournaments",
               style: Theme.of(context).textTheme.headline6?.boldText),
         )
         //TODO : make game play online

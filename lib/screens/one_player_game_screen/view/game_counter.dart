@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tic_tac_toe/models/userscores.dart';
@@ -24,6 +25,7 @@ class GameCounter extends StatelessWidget {
         // Create a CollectionReference called users that references the firestore collection
         CollectionReference scores =
             FirebaseFirestore.instance.collection('singlePlayer');
+            var user = FirebaseAuth.instance.currentUser!;
         final database = score_database.openDB();
         if (state is OnePlayerInitialState) {
           xWins = state.xWin;
@@ -45,6 +47,7 @@ class GameCounter extends StatelessWidget {
                   .doc("Xwins")
                   .set({
                     "id": "0",
+                    "Name": "${user.email ?? user.displayName ?? "User X"}",
                     "scoreDate": "${DateTime.now().toString()}",
                     "userScore": "${xWins}" // 42
                   })
@@ -65,6 +68,7 @@ class GameCounter extends StatelessWidget {
                   .doc("Owins")
                   .set({
                     "id": "1",
+                    "Name": "User O",
                     "scoreDate": "${DateTime.now().toString()}",
                     "userScore": "${oWins}", // 42/ 42
                   })
@@ -86,6 +90,7 @@ class GameCounter extends StatelessWidget {
                   .doc("draws")
                   .set({
                     "id": "1",
+                    "Name": "Draw",
                     "scoreDate": "${DateTime.now().toString()}",
                     "userScore": "${draw}", // 42// 42
                   })
