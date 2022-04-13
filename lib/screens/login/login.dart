@@ -56,12 +56,48 @@ class _LoginState extends State<Login> {
                 children: [
                   Center(
                     child: SizedBox(
-                        width: 175,
-                        height: 175,
+                        width: 50,
+                        height: 50,
                         child: Image.asset('assets/images/logo.png')),
                   ),
+                  Center(
+                    child: Text.rich(
+          TextSpan(
+            text: 'Tic',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ), // default text style
+            children: <TextSpan>[
+              TextSpan(
+                text: ' Tac ',
+                style: TextStyle(
+                    fontSize: 20,
+
+                    /// if we don't declare color explicitly,
+                    /// it will take default color blue accent
+                    color: Colors.blue,
+
+                    /// if we use the same fontFamily, that will also
+                    /// make it italic, bold and blue
+                    //fontFamily: 'Allison',
+                ),
+              ),
+              TextSpan(
+                text: 'Toe ',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 8),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                     child: Text(
                       'Login',
                       style: TextStyle(
@@ -209,6 +245,10 @@ class _LoginState extends State<Login> {
                         onPressed: () async {
                          
                           await  signInWithGoogle();
+                           Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeScreen()));
                           
                         },
                       ),
