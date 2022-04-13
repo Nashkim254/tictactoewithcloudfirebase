@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
                     child: SizedBox(
                         width: 175,
                         height: 175,
-                        child: SvgPicture.asset('assets/images/login.svg')),
+                        child: Image.asset('assets/images/logo.png')),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 15, 20, 8),
