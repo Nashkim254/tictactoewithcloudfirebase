@@ -1,14 +1,14 @@
 class Score {
   final int? id;
-  final String? scoreDate;
+  final String? abbreviation;
   final int? userScore;
 
-  Score({this.id, this.scoreDate, this.userScore});
+  Score({this.id, this.abbreviation, this.userScore});
 
   Map<String, dynamic> toMap() {
     return {
 //      'id': id,
-      'scoreDate': scoreDate,
+      'scoreDate': abbreviation,
       'userScore': userScore,
     };
   }
@@ -18,6 +18,6 @@ class Score {
 
   @override
   String toString() {
-    return '$userScore,$scoreDate,$id';
+    return '$userScore,$abbreviation,$id';
   }
 }

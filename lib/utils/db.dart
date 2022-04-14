@@ -7,7 +7,7 @@ Future<Database> openDB() async {
     join(await getDatabasesPath(), 'scores_database.db'),
     onCreate: (db, version) {
       return db.execute(
-        "CREATE TABLE scores(id INTEGER PRIMARY KEY AUTOINCREMENT, scoreDate TEXT, userScore INTEGER)",
+        "CREATE TABLE scores(id INTEGER PRIMARY KEY AUTOINCREMENT, abbreviation TEXT, userScore INTEGER)",
       );
     },
     version: 1,
@@ -36,7 +36,7 @@ Future<List<Score>> scores(final database) async {
   return List.generate(maps.length, (i) {
     return Score(
       id: maps[i]['id'],
-      scoreDate: maps[i]['scoreDate'],
+      abbreviation: maps[i]['abbreviation'],
       userScore: maps[i]['userScore'],
     );
   });

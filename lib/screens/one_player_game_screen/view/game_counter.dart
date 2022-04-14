@@ -7,11 +7,24 @@ import 'package:tic_tac_toe/screens/one_player_game_screen/bloc/one_player_bloc.
 
 import 'package:tic_tac_toe/utils/db.dart' as score_database;
 
-class GameCounter extends StatelessWidget {
+class GameCounter extends StatefulWidget {
   const GameCounter({Key? key}) : super(key: key);
 
   @override
+  State<GameCounter> createState() => _GameCounterState();
+}
+
+class _GameCounterState extends State<GameCounter> {
+  @override
   Widget build(BuildContext context) {
+    String abbreviation = "";
+late User user;
+    @override
+    void initState() {
+     user = FirebaseAuth.instance.currentUser!;
+      super.initState();
+    }
+
     return BlocBuilder<OnePlayerBloc, OnePlayerState>(
       //the win counter will only change when game is starting or game is over
       /// therefore only build this widget when state is [GameInitilize] or GameOver
@@ -25,7 +38,7 @@ class GameCounter extends StatelessWidget {
         // Create a CollectionReference called users that references the firestore collection
         CollectionReference scores =
             FirebaseFirestore.instance.collection('singlePlayer');
-            var user = FirebaseAuth.instance.currentUser!;
+        var user = FirebaseAuth.instance.currentUser!;
         final database = score_database.openDB();
         if (state is OnePlayerInitialState) {
           xWins = state.xWin;
@@ -35,9 +48,11 @@ class GameCounter extends StatelessWidget {
           xWins = state.xWins;
           oWins = state.oWins;
           draw = state.draws;
-          if (state.winner == "x" ) {
+          if (state.winner == "x") {
             Score score = Score(
-                id: 0, scoreDate: DateTime.now().toString(), userScore: xWins);
+                id: 0,
+                abbreviation: user.displayName ?? user.displayName ?? "NA",
+                userScore: xWins);
             score_database.manipulateDatabase(score, database);
 
             // Call the user's CollectionReference to add a new user
@@ -48,7 +63,7 @@ class GameCounter extends StatelessWidget {
                   .set({
                     "id": "0",
                     "Name": "${user.email ?? user.displayName ?? "User X"}",
-                    "scoreDate": "${DateTime.now().toString()}",
+                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
                     "userScore": "${xWins}" // 42
                   })
                   .then((value) => print("score Added"))
@@ -59,7 +74,9 @@ class GameCounter extends StatelessWidget {
             print("=========>DB saved");
           } else if (state.winner == "o") {
             Score score = Score(
-                id: 1, scoreDate: DateTime.now().toString(), userScore: oWins);
+                id: 1,
+                abbreviation: user.displayName ?? user.displayName ?? "NA",
+                userScore: oWins);
             score_database.manipulateDatabase(score, database);
 
             // Call the user's CollectionReference to add a new user
@@ -69,7 +86,7 @@ class GameCounter extends StatelessWidget {
                   .set({
                     "id": "1",
                     "Name": "User O",
-                    "scoreDate": "${DateTime.now().toString()}",
+                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
                     "userScore": "${oWins}", // 42/ 42
                   })
                   .then((value) => print("score Added"))
@@ -80,7 +97,9 @@ class GameCounter extends StatelessWidget {
             print("=========>DB saved");
           } else if (state.winner == "draw") {
             Score score = Score(
-                id: 1, scoreDate: DateTime.now().toString(), userScore: draw);
+                id: 1,
+                abbreviation: user.displayName ?? user.displayName ?? "NA",
+                userScore: draw);
 
             score_database.manipulateDatabase(score, database);
 
@@ -91,7 +110,7 @@ class GameCounter extends StatelessWidget {
                   .set({
                     "id": "1",
                     "Name": "Draw",
-                    "scoreDate": "${DateTime.now().toString()}",
+                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
                     "userScore": "${draw}", // 42// 42
                   })
                   .then((value) => print("score Added"))
