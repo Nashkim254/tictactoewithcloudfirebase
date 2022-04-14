@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/models/team.dart';
+import 'package:tic_tac_toe/models/team_model.dart';
 import 'package:tic_tac_toe/screens/tournaments/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tic_tac_toe/utils/card.dart';
@@ -151,17 +151,7 @@ class _TeamStandingsState extends State<TeamStandings> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'RD',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: CustomColors.firebaseYellow,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        )
+                       
                       ],
                     ),
                   ),

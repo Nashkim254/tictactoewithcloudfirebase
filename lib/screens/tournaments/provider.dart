@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:tic_tac_toe/models/team.dart';
+import 'package:tic_tac_toe/models/team_model.dart';
 
 class Teams with ChangeNotifier {
   List<Team> teams = [];
 
   Team getTeam(String index) {
-    return teams.firstWhere((e) => e.teamUid == index);
+    return teams.firstWhere((e) => e.userUid == index);
   }
 
   Future<void> fetchAndSetTeams() async {
@@ -35,8 +35,8 @@ class Teams with ChangeNotifier {
 
   Future<void> updateTeam(Team t) async {
     CollectionReference teams = FirebaseFirestore.instance.collection('Team');
-    await teams.doc(t.teamUid).update(t.toMap()).then((_) {
-      // print("Data Updated in firebase for team id - " + t.teamUid);
+    await teams.doc(t.userUid).update(t.toMap()).then((_) {
+      // print("Data Updated in firebase for team id - " + t.userUid);
     });
     await fetchAndSetTeams();
     notifyListeners();
@@ -44,7 +44,7 @@ class Teams with ChangeNotifier {
 
   Future<void> addTeam(Team t) async {
     CollectionReference teams = FirebaseFirestore.instance.collection('Team');
-    String uid = t.teamUid;
+    String uid = t.userUid!;
     await teams.doc(uid).set(t.toMap());
     await fetchAndSetTeams();
     notifyListeners();

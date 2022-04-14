@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/models/team.dart';
+import 'package:tic_tac_toe/models/team_model.dart';
 import 'package:tic_tac_toe/utils/const.dart';
 
 class TeamStandingCard extends StatelessWidget {
@@ -30,7 +30,7 @@ class TeamStandingCard extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Text(
-                    team.teamAbbreviation,
+                    team.abbreviation!,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: standingTextStyle,
@@ -43,7 +43,7 @@ class TeamStandingCard extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    (team.matchesDraw + team.matchesLost + team.matchesWon)
+                    (team.matchesPlayed)
                         .toString(),
                     style: standingTextStyle,
                     textAlign: TextAlign.center,
@@ -76,7 +76,7 @@ class TeamStandingCard extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    team.roundDifference.toString(),
+                    team.points.toString(),
                     style: standingTextStyle,
                     textAlign: TextAlign.center,
                   ),
