@@ -47,7 +47,7 @@ class _GameCounterState extends State<GameCounter> {
           draw = state.draws;
           if (state.winner == "x") {
             Score score = Score(
-                id: 0, abbreviation: user.displayName ?? user.displayName ?? "NA", userScore: xWins);
+                id: 0, abbreviation: user.displayName ?? user.email ?? "NA", userScore: xWins);
             score_database.manipulateDatabase(score, database);
 
             addScore() async {
@@ -56,7 +56,7 @@ class _GameCounterState extends State<GameCounter> {
                   .set({
                     "id": "0",
                     "Name": "${user.email ?? user.displayName ?? "User X" }",
-                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
+                    "abbreviation": user.displayName ?? user.email ?? "NA",
                     "userScore": "${xWins}" // 42
                   })
                   .then((value) => print("score Added"))
@@ -67,7 +67,7 @@ class _GameCounterState extends State<GameCounter> {
             print("=========>DB saved");
           } else if (state.winner == "o") {
             Score score = Score(
-                id: 1, abbreviation: user.displayName ?? user.displayName ?? "NA", userScore: oWins);
+                id: 1, abbreviation: user.displayName ?? user.email ?? "NA", userScore: oWins);
             score_database.manipulateDatabase(score, database);
             // Call the user's CollectionReference to add a new user
             addScore() async {
@@ -75,7 +75,7 @@ class _GameCounterState extends State<GameCounter> {
                   .doc("Owins")
                   .set({
                     "id": "1",
-                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
+                    "abbreviation": user.displayName ?? user.email ?? "NA",
                     "userScore": "${oWins}", // 42/ 42
                   })
                   .then((value) => print("score Added"))
@@ -85,7 +85,7 @@ class _GameCounterState extends State<GameCounter> {
             addScore();
           } else if (state.winner == "draw") {
             Score score = Score(
-                id: 1, abbreviation: user.displayName ?? user.displayName ?? "NA", userScore: draw);
+                id: 1, abbreviation: user.displayName ?? user.email ?? "NA", userScore: draw);
 
             score_database.manipulateDatabase(score, database);
             // Call the user's CollectionReference to add a new user
@@ -94,7 +94,7 @@ class _GameCounterState extends State<GameCounter> {
                   .doc("draws")
                   .set({
                     "id": "1",
-                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
+                    "abbreviation": user.displayName ?? user.email ?? "NA",
                     "userScore": "${draw}", // 42// 42
                   })
                   .then((value) => print("score Added"))

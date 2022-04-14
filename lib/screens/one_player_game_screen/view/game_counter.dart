@@ -51,7 +51,7 @@ late User user;
           if (state.winner == "x") {
             Score score = Score(
                 id: 0,
-                abbreviation: user.displayName ?? user.displayName ?? "NA",
+                abbreviation: user.displayName ?? user.email ?? "NA",
                 userScore: xWins);
             score_database.manipulateDatabase(score, database);
 
@@ -63,7 +63,7 @@ late User user;
                   .set({
                     "id": "0",
                     "Name": "${user.email ?? user.displayName ?? "User X"}",
-                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
+                    "abbreviation": user.email ?? user.displayName ?? "NA",
                     "userScore": "${xWins}" // 42
                   })
                   .then((value) => print("score Added"))
@@ -75,7 +75,7 @@ late User user;
           } else if (state.winner == "o") {
             Score score = Score(
                 id: 1,
-                abbreviation: user.displayName ?? user.displayName ?? "NA",
+                abbreviation: user.email ?? user.displayName ?? "NA",
                 userScore: oWins);
             score_database.manipulateDatabase(score, database);
 
@@ -86,7 +86,7 @@ late User user;
                   .set({
                     "id": "1",
                     "Name": "User O",
-                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
+                    "abbreviation": user.email ?? user.displayName ?? "NA",
                     "userScore": "${oWins}", // 42/ 42
                   })
                   .then((value) => print("score Added"))
@@ -98,7 +98,7 @@ late User user;
           } else if (state.winner == "draw") {
             Score score = Score(
                 id: 1,
-                abbreviation: user.displayName ?? user.displayName ?? "NA",
+                abbreviation: user.email ?? user.displayName ?? "NA",
                 userScore: draw);
 
             score_database.manipulateDatabase(score, database);
@@ -110,7 +110,7 @@ late User user;
                   .set({
                     "id": "1",
                     "Name": "Draw",
-                    "abbreviation": user.displayName ?? user.displayName ?? "NA",
+                    "abbreviation": user.email ?? user.displayName ?? "NA",
                     "userScore": "${draw}", // 42// 42
                   })
                   .then((value) => print("score Added"))
