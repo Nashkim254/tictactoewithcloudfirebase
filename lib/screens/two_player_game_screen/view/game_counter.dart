@@ -67,7 +67,7 @@ class _GameCounterState extends State<GameCounter> {
             print("=========>DB saved");
           } else if (state.winner == "o") {
             Score score = Score(
-                id: 1, abbreviation: user.displayName ?? user.email ?? "NA", userScore: oWins);
+                id: 1, abbreviation: "Player O", userScore: oWins);
             score_database.manipulateDatabase(score, database);
             // Call the user's CollectionReference to add a new user
             addScore() async {

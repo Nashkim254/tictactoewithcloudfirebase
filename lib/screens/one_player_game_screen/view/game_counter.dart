@@ -75,7 +75,7 @@ late User user;
           } else if (state.winner == "o") {
             Score score = Score(
                 id: 1,
-                abbreviation: user.email ?? user.displayName ?? "NA",
+                abbreviation: "Player O",
                 userScore: oWins);
             score_database.manipulateDatabase(score, database);
 
@@ -86,7 +86,7 @@ late User user;
                   .set({
                     "id": "1",
                     "Name": "User O",
-                    "abbreviation": user.email ?? user.displayName ?? "NA",
+                    "abbreviation": "Player O",
                     "userScore": "${oWins}", // 42/ 42
                   })
                   .then((value) => print("score Added"))
