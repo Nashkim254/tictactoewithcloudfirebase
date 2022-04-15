@@ -49,11 +49,11 @@ class HighScore extends StatelessWidget {
     List<String> topRanks = ["🥇", "🥈", "🥉"];
     for (var i = 0; i < numOfRows && i < 10; i++) {
       var row = query[i].toString().split(",");
-      var date = row[1].split(" ")[0].split("-");
-      var scoreDate = formatDate(
-          DateTime(int.parse(date[0]), int.parse(date[1]), int.parse(date[2])),
-          [yy, '-', M, '-', d]);
-
+     // var date = row[1].split(" ")[0].split("-");
+      // var scoreDate = formatDate(
+      //     DateTime(int.parse(date[0]), int.parse(date[1]), int.parse(date[2])),
+      //     [yy, '-', M, '-', d]);
+var abb = row[1];
       Widget item = TableCell(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
@@ -70,7 +70,7 @@ class HighScore extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              '$scoreDate',
+              '$abb',
               style: kHighScoreTableRowsStyle,
               textAlign: TextAlign.center,
             ),
