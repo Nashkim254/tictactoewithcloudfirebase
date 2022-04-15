@@ -75,7 +75,7 @@ class _GameCounterState extends State<GameCounter> {
                   .doc("Owins")
                   .set({
                     "id": "1",
-                    "abbreviation": user.displayName ?? user.email ?? "NA",
+                    "abbreviation": "Player O",
                     "userScore": "${oWins}", // 42/ 42
                   })
                   .then((value) => print("score Added"))
